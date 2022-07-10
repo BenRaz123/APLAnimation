@@ -18,21 +18,33 @@ class MorphAnimation(Scene):
     self.wait()
 class SecondAnimation(Scene):
   def construct(self):
+    
+    # Camera
     self.camera.background_color = WHITE
+
+    # Array Text & Brace
     arr = Text('"..."', font= "SF Mono", color=BEN_BLUE)
+    arrBrace = Brace(arr, DOWN, color =  BLACK)
+    arrBraceText = arrBrace.get_text(f"Array").set_fill(BLACK)
+    arrBraceG = VGroup(arrBrace, arrBraceText)
+
+    # APL Text, Brace, & Positioning
     apl = Text("[16?73]", font = "SF Mono", color = BEN_RED)
+    aplBrace = Brace(apl, UP, color = BLACK)
+    aplBraceText = aplBrace.get_text(f"Extractive Randomized Function").set_fill(BLACK)
+    aplBraceG = VGroup(aplBrace, aplBraceText)
+    apl.next_to(arr, RIGHT)
+
+    # Result Text & Brace
     res = Tex("hkWrLQ4jso;6i7pv", color=BEN_YELLOW).scale(1.5)
     resBrace = Brace(res, UP, color = BLACK)
     resBraceText = resBrace.get_text(f"Result").set_fill(BLACK)
     resBraceG = VGroup(resBrace, resBraceText)
-    apl.next_to(arr, RIGHT)
+    
+    # Grouping
     VGroup(arr, apl).center().scale(1.5)
-    aplBrace = Brace(apl, UP, color = BLACK)
-    aplBraceText = aplBrace.get_text(f"Extractive Randomized Function").set_fill(BLACK)
-    arrBrace = Brace(arr, DOWN, color =  BLACK)
-    arrBraceText = arrBrace.get_text(f"Array").set_fill(BLACK)
-    arrBraceG = VGroup(arrBrace, arrBraceText)
-    aplBraceG = VGroup(aplBrace, aplBraceText)
+    
+    # Animations
     self.play(FadeIn(apl, shift= LEFT*2, scale = 0.5), FadeIn(arr, shift=RIGHT*2, scale=0.5))
     self.play(GrowFromCenter(aplBrace), FadeIn(aplBraceText, shift=UP , scale = 0.5), GrowFromCenter(arrBrace), FadeIn(arrBraceText, shift=DOWN , scale = 0.5))
     self.wait()
