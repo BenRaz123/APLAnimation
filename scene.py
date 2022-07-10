@@ -18,11 +18,29 @@ class MorphAnimation(Scene):
     self.wait()
 class SecondAnimation(Scene):
   def construct(self):
-    
-    # Camera
-    self.camera.background_color = WHITE
 
-    # Array Text & Brace
+    # Camera
+    self.camera.background_color = BLACK
+
+    # Background
+    func = lambda pos: ((pos[0] * UR + pos[1] * LEFT) - pos) / 3
+   
+    bgF = StreamLines(func, colors=[BEN_RED, BEN_BLUE], max_color_scheme_value=2).scale(1.2)
+    bgC = Rectangle(color=BLACK, fill_opacity=0.9).scale(30)
+    bgG = StreamLines(func, colors=[BEN_RED, BEN_BLUE], max_color_scheme_value=2, stroke_width=2000).scale(1.2)
+    bgB = Rectangle(color=BLACK, fill_opacity=1).scale(30)
+
+    bg = VGroup(bgB, bgG, bgC, bgF)
+
+    bgF2 = StreamLines(func, colors=[BEN_YELLOW, DARKER_GRAY], max_color_scheme_value=2).scale(1.2)
+    bgC2 = Rectangle(color=BLACK, fill_opacity=0.9).scale(30)
+    bgG2 = StreamLines(func, colors=[BEN_YELLOW, DARKER_GRAY], max_color_scheme_value=2, stroke_width=2000).scale(1.2)
+    bg2= VGroup(bgG2, bgC2, bgF2)
+
+
+    self.add(bg2, bg)
+
+    # Arr & APL Text & Positioning
     arr = Text('"..."', font= "SF Mono", color=BEN_BLUE)
     arrBrace = Brace(arr, DOWN, color =  BLACK)
     arrBraceText = arrBrace.get_text(f"Array").set_fill(BLACK)
@@ -30,19 +48,24 @@ class SecondAnimation(Scene):
 
     # APL Text, Brace, & Positioning
     apl = Text("[16?73]", font = "SF Mono", color = BEN_RED)
-    aplBrace = Brace(apl, UP, color = BLACK)
-    aplBraceText = aplBrace.get_text(f"Extractive Randomized Function").set_fill(BLACK)
-    aplBraceG = VGroup(aplBrace, aplBraceText)
     apl.next_to(arr, RIGHT)
+    VGroup(arr, apl).center().scale(1.5)
+    
+    # Braces
+    arrBrace = Brace(arr, DOWN, color =  WHITE)
+    arrBraceText = arrBrace.get_text(f"Array").set_fill(WHITE).set_background_stroke(opacity=1, color=BLACK)
+    arrBraceG = VGroup(arrBrace, arrBraceText)
+    aplBrace = Brace(apl, UP, color = WHITE)
+    aplBraceText = aplBrace.get_text(f"Extractive Randomized Function").set_fill(WHITE).set_background_stroke(opacity=1, color=BLACK)
+    aplBraceG = VGroup(aplBrace, aplBraceText)
 
     # Result Text & Brace
     res = Tex("hkWrLQ4jso;6i7pv", color=BEN_YELLOW).scale(1.5)
-    resBrace = Brace(res, UP, color = BLACK)
-    resBraceText = resBrace.get_text(f"Result").set_fill(BLACK)
+    resBrace = Brace(res, UP, color = WHITE)
+    resBraceText = resBrace.get_text(f"Result").set_fill(WHITE).set_background_stroke(opacity=1, color=BLACK)
     resBraceG = VGroup(resBrace, resBraceText)
     
     # Grouping
-    VGroup(arr, apl).center().scale(1.5)
     a = VGroup(apl, arr)
     
     # Animations
@@ -50,5 +73,5 @@ class SecondAnimation(Scene):
     self.play(GrowFromCenter(aplBrace), FadeIn(aplBraceText, shift=UP , scale = 0.5), GrowFromCenter(arrBrace), FadeIn(arrBraceText, shift=DOWN , scale = 0.5))
     self.wait()
     self.play(FadeOut(arrBraceG, aplBraceG))
-    self.play(Transform(a, res))
+    self.play(FadeOut(bg), Transform(a, res))
     self.play(GrowFromCenter(resBrace), FadeIn(resBraceText, shift = UP , scale = 0.5))
