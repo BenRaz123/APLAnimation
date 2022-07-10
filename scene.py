@@ -43,12 +43,12 @@ class SecondAnimation(Scene):
     
     # Grouping
     VGroup(arr, apl).center().scale(1.5)
+    a = VGroup(apl, arr)
     
     # Animations
     self.play(FadeIn(apl, shift= LEFT*2, scale = 0.5), FadeIn(arr, shift=RIGHT*2, scale=0.5))
     self.play(GrowFromCenter(aplBrace), FadeIn(aplBraceText, shift=UP , scale = 0.5), GrowFromCenter(arrBrace), FadeIn(arrBraceText, shift=DOWN , scale = 0.5))
     self.wait()
     self.play(FadeOut(arrBraceG, aplBraceG))
-    a = VGroup(apl, arr)
     self.play(Transform(a, res))
     self.play(GrowFromCenter(resBrace), FadeIn(resBraceText, shift = UP , scale = 0.5))
